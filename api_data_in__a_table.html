@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+ </head>
+ <body>
+ 	<div id="country-names"></div>
+ 	<div id="container"></div>
+</body>
+<script type="text/javascript">
+	var oXHR = new XMLHttpRequest();
+
+    // Initiate request.
+    oXHR.onreadystatechange = countryNames;
+   
+    oXHR.open("GET", "https://api.cricapi.com/v1/countries?apikey=254bac02-5698-4a97-9d9d-d92945716588&offset=0", true);  // get json file.
+    oXHR.send();
+
+    function countryNames()
+    {
+    	if (oXHR.readyState == 4) {		// Check if request is complete.
+          //  Write data to a DIV element.
+
+          const resp = JSON.parse(this.response);
+          const arrayNew=[];
+    
+
+
+for(let i=0;i<=resp.data.length;i++){
+            document.getElementById('country-names').innerHTML = resp.data[i].name;
+            arrayNew.push(resp.data[i].name);
+//console.log(arrayNew);
+            console.log(resp.data[i].name);
+            let myTable = document.createElement("table");
+    let  row = myTable.insertRow();
+    let cell;
+
+// (C2) LOOP THROUGH ARRAY & GENERATE ROWS-CELLS
+let perrow = 1; // 2 CELLS PER ROW
+arrayNew.forEach((value, i) => {
+  // ADD CELL
+  cell = row.insertCell();
+  cell.innerHTML = value;
+ 
+  // CLICK ON CELL TO DO SOMETHING
+  // cell.onclick = FUNCTION;
+ 
+  // TO PASS IN A RUNNING NUMBER OR PARAMETER
+  // cell.onclick = () => { console.log(i); };
+ 
+  // BREAK INTO NEXT ROW
+  let next = i + 1;
+  //if (next%perrow==0 &&
+  if( next!=arrayNew.length) //
+  { row = myTable.insertRow(); }
+});
+
+// (D) ATTACH TABLE TO CONTAINER
+document.getElementById("country-names").appendChild(myTable);
+
+        
+ 
+}
+}
+}
+//(A) ALL WE NEED IS A <DIV> country-names
+
+ 
+// (B) DUMMY ARRAY
+//var data = ["doge", "cate", "birb", "doggo", "moon moon", "awkward seal"];
+ 
+// (C) CREATE HTML TABLE
+// (C1) HTML TABLE ELEMENT
+   
+    
+</script>
+ 
+ </html>
